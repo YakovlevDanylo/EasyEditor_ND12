@@ -31,10 +31,9 @@ row_tools.addWidget(btn_flip)
 row_tools.addWidget(btn_bw)
 
 col2.addWidget(label_image)
-#col2.addLayout(row_tools)
-row_tools.addLayout(col2)
+col2.addLayout(row_tools)
 row.addLayout(col1, stretch=1)
-row.addLayout(row_tools, stretch=3)
+row.addLayout(col2, stretch=3)
 
 win.setLayout(row)
 win.show()
