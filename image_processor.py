@@ -1,64 +1,34 @@
-import os
+import os.path
+from PIL import Image
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap
 
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QListWidget, QHBoxLayout, QVBoxLayout, \
-    QFileDialog
+class ImageProcessor:
+    def __init__(self):
+        self.image = None
+        self.dir = None
+        self.filename = None
+        self.save_dir = "Modified/"
 
-app = QApplication([])
-win = QWidget()
-win.setWindowTitle("Easy Editor")
-win.resize(700, 500)
 
-label_image = QLabel("Тут буде картинка")
-btn_dir = QPushButton("Папка")
-lw_files = QListWidget()
+    def loadImage(self, dir, filename):
+        self.dir = dir
+        self.filename = filename
+        image_path = os.path.join(self.dir, self.filename)
+        self.image = Image.open(image_path)
 
-btn_left = QPushButton("Вліво")
-btn_right = QPushButton("Вправо")
-btn_flip = QPushButton("Дзеркало")
-btn_bw = QPushButton("Ч/Б")
+    def showImage(self, path, lb_image):
+        lb_image.hide()
+        pixmapimage = QPixmap(path)
+        w, h = lb_image.width(), lb_image.height()
+        pixmapimage = pixmapimage.scaled(w, h, Qt.KeepAspectRatio)
+        lb_image.setPixmap(pixmapimage)
+        lb_image.show()
 
-row = QHBoxLayout()
-col1 = QVBoxLayout()
-col2 = QVBoxLayout()
-row_tools = QHBoxLayout()
+    def saveImage(self):
+        path = os.path.join(self.dir, self.save_dir)
+        if not (os.path.exists(path) or os.path.isdir(path)):
+            os.mkdir(path)
+        image_path = os.path.join(path, self.filename)
+        self.image.save(image_path)
 
-col1.addWidget(btn_dir)
-col1.addWidget(lw_files)
-
-row_tools.addWidget(btn_left)
-row_tools.addWidget(btn_right)
-row_tools.addWidget(btn_flip)
-row_tools.addWidget(btn_bw)
-
-col2.addWidget(label_image)
-col2.addLayout(row_tools)
-row.addLayout(col1, stretch=1)
-row.addLayout(col2, stretch=3)
-
-win.setLayout(row)
-win.show()
-
-work_dir = ""
-
-def filter(files, extensions):
-    result = []
-    for file in files:
-        for ext in extensions:
-            if file.endswith(ext):
-                result.append(file)
-    return result
-
-def chooseWorkDir():
-    global work_dir
-    work_dir = QFileDialog.getExistingDirectory()
-
-def showFilenameList():
-    extensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp"]
-    chooseWorkDir()
-    filenames = filter(os.listdir(work_dir), extensions)
-    lw_files.clear()
-    lw_files.addItems(filenames)
-
-btn_dir.clicked.connect(showFilenameList)
-
-app.exec_()
