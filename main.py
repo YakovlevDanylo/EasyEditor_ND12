@@ -3,6 +3,8 @@ import os
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QListWidget, QHBoxLayout, QVBoxLayout, \
     QFileDialog
 
+from image_processor import ImageProcessor
+
 app = QApplication([])
 win = QWidget()
 win.setWindowTitle("Easy Editor")
@@ -59,6 +61,16 @@ def showFilenameList():
     lw_files.clear()
     lw_files.addItems(filenames)
 
+def showChosenImage():
+   if lw_files.currentRow() >= 0:
+      filename = lw_files.currentItem().text()
+      workimage.loadImage(work_dir, filename)
+      image_path = os.path.join(workimage.dir, workimage.filename)
+      workimage.showImage(image_path, label_image)
+
+workimage = ImageProcessor()
+
+lw_files.currentRowChanged.connect(showChosenImage)
 btn_dir.clicked.connect(showFilenameList)
 
 app.exec_()
