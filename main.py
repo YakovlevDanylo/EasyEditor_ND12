@@ -73,4 +73,27 @@ workimage = ImageProcessor()
 lw_files.currentRowChanged.connect(showChosenImage)
 btn_dir.clicked.connect(showFilenameList)
 
+btn_bw.clicked.connect(workimage.do_bw)
+btn_left.clicked.connect(workimage.do_left)
+btn_right.clicked.connect(workimage.do_right)
+btn_flip.clicked.connect(workimage.do_flip)
+
+win.setStyleSheet("""
+   QWidget {
+      
+   }
+
+   QPushButton {
+      
+
+   }
+   QPushButton:hover {
+      
+   }
+
+   QListWidget {
+      
+   }
+""")
+
 app.exec_()
