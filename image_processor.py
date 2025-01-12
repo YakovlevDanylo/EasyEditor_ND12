@@ -1,5 +1,5 @@
 import os.path
-from PIL import Image
+from PIL import Image, ImageFilter
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 
