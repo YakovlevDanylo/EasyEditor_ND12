@@ -1,13 +1,7 @@
-import os
+import os.path
 from PIL import Image
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
-from PIL.ImageFilter import (
-   BLUR, CONTOUR, DETAIL, EDGE_ENHANCE, EDGE_ENHANCE_MORE,
-   EMBOSS, FIND_EDGES, SMOOTH, SMOOTH_MORE, SHARPEN,
-   GaussianBlur, UnsharpMask
-)
-
 
 class ImageProcessor:
     def __init__(self):
@@ -20,7 +14,7 @@ class ImageProcessor:
     def loadImage(self, dir, filename):
         self.dir = dir
         self.filename = filename
-        image_path = os.path.join(dir, filename)
+        image_path = os.path.join(self.dir, self.filename)
         self.image = Image.open(image_path)
 
     def showImage(self, path, lb_image):
@@ -63,10 +57,14 @@ class ImageProcessor:
         image_path = os.path.join(self.dir, self.save_dir, self.filename)
         self.showImage(image_path, self.lb_image)
 
-    def do_red(self):
-        self.image = self.image.convert("L")
-        red_tint = Image.new("RGB", self.image.size, (255, 0, 0))
-        self.image = Image.blend(self.image.convert("RGB"), red_tint, 0.3)
+    def do_func1(self):
+
+        self.saveImage()
+        image_path = os.path.join(self.dir, self.save_dir, self.filename)
+        self.showImage(image_path, self.lb_image)
+
+    def do_func2(self):
+
         self.saveImage()
         image_path = os.path.join(self.dir, self.save_dir, self.filename)
         self.showImage(image_path, self.lb_image)
