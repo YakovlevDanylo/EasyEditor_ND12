@@ -80,19 +80,27 @@ btn_flip.clicked.connect(workimage.do_flip)
 
 win.setStyleSheet("""
    QWidget {
-      
+      background-color: grey;
+      font-size: 32px;
    }
 
    QPushButton {
-      
+      background-color: black;
+      color: white;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 14px;
 
    }
    QPushButton:hover {
-      
+      background-color: #333230;
+      color: white;
    }
 
    QListWidget {
-      
+      background-color: white;
+      border: 2px solid black;
+      border-radius: 5px;
    }
 """)
 
